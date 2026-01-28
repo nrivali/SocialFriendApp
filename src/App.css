@@ -1,0 +1,28 @@
+.app {
+  display: flex;
+  max-width: 1300px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+  max-width: 600px;
+  min-height: 100vh;
+}
+
+@media (max-width: 1024px) {
+  .app {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    max-width: 100%;
+    border-left: none;
+    border-right: none;
+  }
+}
