@@ -31,6 +31,15 @@ const Messages = ({ selectedChat, setSelectedChat }) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   const messages = selectedChat ? getMessages(selectedChat.id) : [];
 
   return (
@@ -48,13 +57,18 @@ const Messages = ({ selectedChat, setSelectedChat }) => {
               onClick={() => setSelectedChat(friend)}
             >
               <div className="conversation-avatar-container">
-                <img src={friend.avatar} alt={friend.name} className="conversation-avatar" />
+                <div
+                  className="conversation-avatar"
+                  style={{ backgroundColor: friend.avatarColor || '#1da1f2' }}
+                >
+                  {getInitials(friend.name)}
+                </div>
                 {friend.isOnline && <span className="online-dot" />}
               </div>
               <div className="conversation-info">
                 <div className="conversation-header">
                   <span className="conversation-name">{friend.name}</span>
-                  <span className="conversation-handle">@{friend.username}</span>
+                  <span className="conversation-handle">{friend.handle}</span>
                 </div>
                 <p className="conversation-preview">
                   {getMessages(friend.id).length > 0
@@ -72,7 +86,12 @@ const Messages = ({ selectedChat, setSelectedChat }) => {
           <>
             <header className="chat-header">
               <div className="chat-user-info">
-                <img src={selectedChat.avatar} alt={selectedChat.name} className="chat-avatar" />
+                <div
+                  className="chat-avatar"
+                  style={{ backgroundColor: selectedChat.avatarColor || '#1da1f2' }}
+                >
+                  {getInitials(selectedChat.name)}
+                </div>
                 <div>
                   <span className="chat-name">{selectedChat.name}</span>
                   <span className="chat-status">
@@ -85,9 +104,14 @@ const Messages = ({ selectedChat, setSelectedChat }) => {
 
             <div className="chat-messages">
               <div className="chat-intro">
-                <img src={selectedChat.avatar} alt={selectedChat.name} className="intro-avatar" />
+                <div
+                  className="intro-avatar"
+                  style={{ backgroundColor: selectedChat.avatarColor || '#1da1f2' }}
+                >
+                  {getInitials(selectedChat.name)}
+                </div>
                 <h2>{selectedChat.name}</h2>
-                <p className="intro-handle">@{selectedChat.username}</p>
+                <p className="intro-handle">{selectedChat.handle}</p>
                 <p className="intro-bio">{selectedChat.bio}</p>
               </div>
 
@@ -97,7 +121,12 @@ const Messages = ({ selectedChat, setSelectedChat }) => {
                   className={`message ${message.senderId === 'current' ? 'sent' : 'received'}`}
                 >
                   {message.senderId !== 'current' && (
-                    <img src={selectedChat.avatar} alt="" className="message-avatar" />
+                    <div
+                      className="message-avatar"
+                      style={{ backgroundColor: selectedChat.avatarColor || '#1da1f2' }}
+                    >
+                      {getInitials(selectedChat.name)}
+                    </div>
                   )}
                   <div className="message-content">
                     <p className="message-text">{message.content}</p>

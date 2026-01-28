@@ -1,0 +1,142 @@
+.setup-card {
+  max-width: 500px;
+}
+
+.setup-subtitle {
+  color: #71767b;
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 32px;
+  margin-top: -16px;
+}
+
+.avatar-preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.avatar-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 16px;
+  transition: background-color 0.3s;
+}
+
+.avatar-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e7e9ea;
+}
+
+.avatar-handle {
+  color: #71767b;
+  font-size: 15px;
+}
+
+.color-picker {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.color-option {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+}
+
+.color-option.selected {
+  border-color: #e7e9ea;
+  box-shadow: 0 0 0 2px #000, 0 0 0 4px currentColor;
+}
+
+.setup-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.setup-actions .auth-btn {
+  flex: 1;
+}
+
+.form-textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+.char-count {
+  text-align: right;
+  color: #71767b;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.profile-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #16181c;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.preview-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.preview-info {
+  text-align: center;
+}
+
+.preview-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #e7e9ea;
+}
+
+.preview-handle {
+  color: #71767b;
+  font-size: 15px;
+}
+
+.preview-bio {
+  color: #e7e9ea;
+  font-size: 15px;
+  margin-top: 12px;
+  max-width: 300px;
+}
+
+.preview-location {
+  color: #71767b;
+  font-size: 14px;
+  margin-top: 8px;
+}

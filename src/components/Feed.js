@@ -17,6 +17,15 @@ const Feed = () => {
     }
   };
 
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
     <div className="feed">
       <header className="feed-header">
@@ -24,7 +33,12 @@ const Feed = () => {
       </header>
 
       <div className="compose-box">
-        <img src={currentUser.avatar} alt="You" className="compose-avatar" />
+        <div
+          className="compose-avatar"
+          style={{ backgroundColor: currentUser.avatarColor }}
+        >
+          {getInitials(currentUser.name)}
+        </div>
         <form onSubmit={handleSubmit} className="compose-form">
           <textarea
             value={newPost}

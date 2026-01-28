@@ -30,15 +30,29 @@ const Post = ({ post }) => {
     return num.toString();
   };
 
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   if (!user) return null;
 
   return (
     <article className="post">
-      <img src={user.avatar} alt={user.name} className="post-avatar" />
+      <div
+        className="post-avatar"
+        style={{ backgroundColor: user.avatarColor || '#1da1f2' }}
+      >
+        {getInitials(user.name)}
+      </div>
       <div className="post-content">
         <div className="post-header">
           <span className="post-name">{user.name}</span>
-          <span className="post-handle">@{user.username}</span>
+          <span className="post-handle">{user.handle}</span>
           <span className="post-separator">·</span>
           <span className="post-time">{formatTime(post.timestamp)}</span>
         </div>
