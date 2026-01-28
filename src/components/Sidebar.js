@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Sidebar.css';
 import { useUser } from '../context/UserContext';
+import { useAuth } from '../context/AuthContext';
 
 const Sidebar = ({ currentView, setCurrentView }) => {
   const { currentUser } = useUser();
+  const { logout } = useAuth();
+  const [showMenu, setShowMenu] = useState(false);
 
   const navItems = [
     { id: 'feed', label: 'Home', icon: '🏠' },
     { id: 'messages', label: 'Messages', icon: '✉️' },
     { id: 'profile', label: 'Profile', icon: '👤' },
   ];
+
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const handleLogout = () => {
+    setShowMenu(false);
+    logout();
+  };
 
   return (
     <aside className="sidebar">
@@ -36,13 +53,40 @@ const Sidebar = ({ currentView, setCurrentView }) => {
           Post
         </button>
 
-        <div className="user-profile" onClick={() => setCurrentView('profile')}>
-          <img src={currentUser.avatar} alt={currentUser.name} className="user-avatar" />
-          <div className="user-info">
-            <span className="user-name">{currentUser.name}</span>
-            <span className="user-handle">@{currentUser.username}</span>
+        <div className="user-profile-container">
+          <div
+            className="user-profile"
+            onClick={() => setShowMenu(!showMenu)}
+          >
+            <div
+              className="user-avatar"
+              style={{ backgroundColor: currentUser.avatarColor }}
+            >
+              {getInitials(currentUser.name)}
+            </div>
+            <div className="user-info">
+              <span className="user-name">{currentUser.name}</span>
+              <span className="user-handle">{currentUser.handle}</span>
+            </div>
+            <span className="more-icon">⋯</span>
           </div>
-          <span className="more-icon">⋯</span>
+
+          {showMenu && (
+            <div className="user-menu">
+              <button
+                className="menu-item"
+                onClick={() => {
+                  setShowMenu(false);
+                  setCurrentView('profile');
+                }}
+              >
+                View profile
+              </button>
+              <button className="menu-item logout" onClick={handleLogout}>
+                Log out {currentUser.handle}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </aside>

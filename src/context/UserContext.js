@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 const UserContext = createContext();
 
@@ -10,66 +11,132 @@ export const useUser = () => {
   return context;
 };
 
-const initialFriends = [
+const FRIENDS_KEY = 'socialfriend_friends';
+
+const defaultFriends = [
   {
     id: '1',
     name: 'Alex Johnson',
-    username: 'alexj',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex',
+    handle: '@alexj',
+    avatarColor: '#1da1f2',
     bio: 'Coffee enthusiast & code wizard ☕💻',
     isOnline: true,
   },
   {
     id: '2',
     name: 'Sam Wilson',
-    username: 'samwilson',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sam',
+    handle: '@samwilson',
+    avatarColor: '#00ba7c',
     bio: 'Living life one day at a time 🌟',
     isOnline: true,
   },
   {
     id: '3',
     name: 'Jordan Lee',
-    username: 'jordanlee',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan',
+    handle: '@jordanlee',
+    avatarColor: '#f91880',
     bio: 'Music lover | Bookworm | Dreamer',
     isOnline: false,
   },
   {
     id: '4',
     name: 'Taylor Swift',
-    username: 'nottaylorswift',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Taylor',
+    handle: '@nottaylorswift',
+    avatarColor: '#ffd400',
     bio: 'Definitely not that Taylor Swift',
     isOnline: true,
   },
   {
     id: '5',
     name: 'Morgan Chen',
-    username: 'morganc',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Morgan',
+    handle: '@morganc',
+    avatarColor: '#7856ff',
     bio: 'Tech geek | Gamer | Pizza lover 🍕',
     isOnline: false,
   },
 ];
 
 export const UserProvider = ({ children }) => {
-  const [currentUser] = useState({
-    id: 'current',
-    name: 'You',
-    username: 'yourhandle',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=You',
-    bio: 'Welcome to SocialFriend!',
-  });
+  const { currentUser: authUser, getUsers } = useAuth();
+  const [friends, setFriends] = useState([]);
 
-  const [friends] = useState(initialFriends);
+  useEffect(() => {
+    const savedFriends = localStorage.getItem(FRIENDS_KEY);
+    if (savedFriends) {
+      setFriends(JSON.parse(savedFriends));
+    } else {
+      setFriends(defaultFriends);
+      localStorage.setItem(FRIENDS_KEY, JSON.stringify(defaultFriends));
+    }
+  }, []);
+
+  const currentUser = {
+    id: 'current',
+    name: authUser?.name || 'User',
+    handle: authUser?.handle || '@user',
+    avatarColor: authUser?.avatarColor || '#1da1f2',
+    bio: authUser?.bio || '',
+    location: authUser?.location || '',
+    website: authUser?.website || '',
+    joinedDate: authUser?.joinedDate || new Date().toISOString(),
+  };
 
   const getFriendById = (id) => {
+    if (id === 'current') return currentUser;
     return friends.find(friend => friend.id === id);
   };
 
+  const getRegisteredUsers = () => {
+    const users = getUsers();
+    return users
+      .filter(u => u.id !== authUser?.id)
+      .map(u => ({
+        id: u.id,
+        name: u.name,
+        handle: u.handle,
+        avatarColor: u.avatarColor || '#1da1f2',
+        bio: u.bio || '',
+        isOnline: Math.random() > 0.5,
+      }));
+  };
+
+  const addFriend = (friendId) => {
+    const registeredUsers = getRegisteredUsers();
+    const userToAdd = registeredUsers.find(u => u.id === friendId);
+    if (userToAdd && !friends.find(f => f.id === friendId)) {
+      const newFriends = [...friends, userToAdd];
+      setFriends(newFriends);
+      localStorage.setItem(FRIENDS_KEY, JSON.stringify(newFriends));
+    }
+  };
+
+  const removeFriend = (friendId) => {
+    const newFriends = friends.filter(f => f.id !== friendId);
+    setFriends(newFriends);
+    localStorage.setItem(FRIENDS_KEY, JSON.stringify(newFriends));
+  };
+
+  const getAllUsers = () => {
+    const registeredUsers = getRegisteredUsers();
+    const friendIds = new Set(friends.map(f => f.id));
+    return {
+      friends,
+      suggestions: [...defaultFriends, ...registeredUsers].filter(
+        u => !friendIds.has(u.id) && u.id !== authUser?.id
+      ),
+    };
+  };
+
   return (
-    <UserContext.Provider value={{ currentUser, friends, getFriendById }}>
+    <UserContext.Provider value={{
+      currentUser,
+      friends,
+      getFriendById,
+      addFriend,
+      removeFriend,
+      getAllUsers,
+      getRegisteredUsers,
+    }}>
       {children}
     </UserContext.Provider>
   );

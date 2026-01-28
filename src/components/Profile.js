@@ -18,6 +18,20 @@ const Profile = () => {
     { id: 'friends', label: 'Friends' },
   ];
 
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const formatJoinDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  };
+
   return (
     <div className="profile">
       <header className="profile-header">
@@ -29,22 +43,35 @@ const Profile = () => {
       </header>
 
       <div className="profile-banner">
-        <div className="banner-gradient" />
+        <div
+          className="banner-gradient"
+          style={{
+            background: `linear-gradient(135deg, ${currentUser.avatarColor} 0%, ${currentUser.avatarColor}99 100%)`
+          }}
+        />
       </div>
 
       <div className="profile-info-section">
         <div className="profile-avatar-row">
-          <img src={currentUser.avatar} alt={currentUser.name} className="profile-avatar" />
+          <div
+            className="profile-avatar"
+            style={{ backgroundColor: currentUser.avatarColor }}
+          >
+            {getInitials(currentUser.name)}
+          </div>
           <button className="edit-profile-btn">Edit profile</button>
         </div>
 
         <div className="profile-details">
           <h2 className="profile-name">{currentUser.name}</h2>
-          <span className="profile-handle">@{currentUser.username}</span>
-          <p className="profile-bio">{currentUser.bio}</p>
+          <span className="profile-handle">{currentUser.handle}</span>
+          {currentUser.bio && <p className="profile-bio">{currentUser.bio}</p>}
 
           <div className="profile-meta">
-            <span className="meta-item">📅 Joined January 2024</span>
+            {currentUser.location && (
+              <span className="meta-item">📍 {currentUser.location}</span>
+            )}
+            <span className="meta-item">📅 Joined {formatJoinDate(currentUser.joinedDate)}</span>
           </div>
 
           <div className="profile-stats">
@@ -101,10 +128,15 @@ const Profile = () => {
           <div className="friends-grid">
             {friends.map(friend => (
               <div key={friend.id} className="friend-card">
-                <img src={friend.avatar} alt={friend.name} className="friend-card-avatar" />
+                <div
+                  className="friend-card-avatar"
+                  style={{ backgroundColor: friend.avatarColor || '#1da1f2' }}
+                >
+                  {getInitials(friend.name)}
+                </div>
                 <div className="friend-card-info">
                   <span className="friend-card-name">{friend.name}</span>
-                  <span className="friend-card-handle">@{friend.username}</span>
+                  <span className="friend-card-handle">{friend.handle}</span>
                   <p className="friend-card-bio">{friend.bio}</p>
                 </div>
                 <div className="friend-card-status">

@@ -8,8 +8,17 @@ const RightSidebar = () => {
 
   const filteredFriends = friends.filter(friend =>
     friend.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    friend.username.toLowerCase().includes(searchQuery.toLowerCase())
+    friend.handle.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
     <aside className="right-sidebar">
@@ -30,12 +39,17 @@ const RightSidebar = () => {
           {filteredFriends.map(friend => (
             <div key={friend.id} className="friend-item">
               <div className="friend-avatar-container">
-                <img src={friend.avatar} alt={friend.name} className="friend-avatar" />
+                <div
+                  className="friend-avatar"
+                  style={{ backgroundColor: friend.avatarColor || '#1da1f2' }}
+                >
+                  {getInitials(friend.name)}
+                </div>
                 {friend.isOnline && <span className="online-indicator" />}
               </div>
               <div className="friend-info">
                 <span className="friend-name">{friend.name}</span>
-                <span className="friend-handle">@{friend.username}</span>
+                <span className="friend-handle">{friend.handle}</span>
               </div>
               <button className="follow-btn">Message</button>
             </div>

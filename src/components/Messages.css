@@ -73,6 +73,12 @@
   height: 48px;
   border-radius: 50%;
   background-color: #2f3336;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
 }
 
 .online-dot {
@@ -146,6 +152,12 @@
   height: 36px;
   border-radius: 50%;
   background-color: #2f3336;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
 }
 
 .chat-name {
@@ -192,8 +204,14 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  margin-bottom: 8px;
+  margin: 0 auto 8px;
   background-color: #2f3336;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
 }
 
 .chat-intro h2 {
@@ -233,6 +251,12 @@
   border-radius: 50%;
   flex-shrink: 0;
   background-color: #2f3336;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
 }
 
 .message-content {

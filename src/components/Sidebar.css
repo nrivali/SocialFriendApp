@@ -93,12 +93,16 @@
   background-color: #1a91da;
 }
 
+.user-profile-container {
+  margin-top: auto;
+  position: relative;
+}
+
 .user-profile {
   display: flex;
   align-items: center;
   padding: 12px;
   border-radius: 50px;
-  margin-top: auto;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -112,6 +116,48 @@
   height: 40px;
   border-radius: 50%;
   background-color: #2f3336;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.user-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: #000;
+  border: 1px solid #2f3336;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: none;
+  border: none;
+  color: #e7e9ea;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: rgba(231, 233, 234, 0.1);
+}
+
+.menu-item.logout {
+  color: #f4212e;
+  border-top: 1px solid #2f3336;
 }
 
 .user-info {
